@@ -3,15 +3,35 @@ import React, { useState, useEffect } from 'react';
 export default function Image(props){
     const [imageFile, setimageFile] = useState('')
     const [desc, setdesc] = useState('')
-    const [product, setproduct] = useState([])
+    var [product, setproduct] = useState([])
 
     useEffect(()=>{
         fetch('http://localhost:3003/getImage', {
             method: 'GET'
         })
         .then(response => response.json())
-        .then(a => console.log(a))
+        .then(data => {
+            console.log(data);
+            for(let i=0;i<data.length;i++){
+            var base64Flag = 'data:image/jpeg;base64,';
+            var imageStr = arrayBufferToBase64(data[i].img.data.data);
+
+            data[i].img=base64Flag+imageStr;
+            }
+            setproduct(data);
+            console.log(product);
+        })
+        .catch(err => console.log("err "+err));
     },[])
+
+    function arrayBufferToBase64(buffer){
+        var binary= '';
+        var bytes = [].slice.call(new Uint8Array(buffer));
+
+        bytes.forEach((b) => binary += String.fromCharCode(b));
+
+        return window.btoa(binary);
+    }
 
     function handleChange(e){
         console.log("image got.");
@@ -19,7 +39,7 @@ export default function Image(props){
         setdesc(e.target.files[0].name);
     }
 
-    function handleUpload(e){
+    function handleUpload(){
         const form=new FormData();
         form.append('file', imageFile);
         form.append('description', desc);
@@ -37,7 +57,16 @@ export default function Image(props){
         <>
         <div>
             <input type="file" name="file" onChange={handleChange}/><br/>
-            <button onClick={handleUpload}>UPLOAD</button>
+            <button onClick={handleUpload}>UPLOAD</button><br/>
+
+            {product.map( item =>{
+                return(
+                    <div>
+                        <img src={item.img} alt="qwerty"/>
+                        <div>{item.description}</div>
+                   </div>
+                )
+            })}
         </div>
         </>
     )
