@@ -3,6 +3,7 @@ const cors=require('cors');
 const path=require('path');
 const multer=require('multer');
 const mongoose=require('mongoose');
+const fs = require('fs');
 
 
 const app=express();
@@ -40,12 +41,41 @@ mongoose
 });
 
 
+var imageSchema=new mongoose.Schema({
+  img: {
+    data: Buffer,
+    contentType: String
+  },
+  description: String
+});
 
-app.get('/', (req,res)=>{
+const Image= mongoose.model('Image', imageSchema);
+
+
+
+app.get('/getImage', (req,res)=>{
+    Image.find({}, function(err,data){
+      if(err) console.log("Error getting data");
+
+      res.json(data);
+    })
     console.log("home");
 })
 app.post('/postImage', upload, (req, res)=>{
-    console.log(req.file);
+    var newImage=new Image({
+      img: {
+        data: fs.readFileSync(path.join(__dirname,'/uploads/',req.file.filename)),
+        ContentType: 'image'
+      },
+      description: req.body.description
+    })
+
+    console.log(newImage);
+    newImage.save(function(err,data){
+      if(err) console.log("Error in saving image");
+
+      res.json(data);
+    })
 })
 
 app.listen(3003);

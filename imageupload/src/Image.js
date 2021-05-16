@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function Image(props){
     const [imageFile, setimageFile] = useState('')
-    const [desc, setdesc] = useState("")
+    const [desc, setdesc] = useState('')
+    const [product, setproduct] = useState([])
+
+    useEffect(()=>{
+        fetch('http://localhost:3003/getImage', {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(a => console.log("effect "+a))
+    },[])
 
     function handleChange(e){
         console.log("image got.");
@@ -14,11 +23,6 @@ export default function Image(props){
         const form=new FormData();
         form.append('file', imageFile);
         form.append('description', desc);
-        // console.log(form);  it wont print it like this.
-        //instead use this... for method
-        // for(var pair of form.entries()) {
-        //    console.log(pair[1]);
-        // }
         fetch('http://localhost:3003/postImage', {
             method: 'POST',
             body: form
@@ -32,8 +36,7 @@ export default function Image(props){
     return(
         <>
         <div>
-            <input type="text" name="description"/><br/>
-            <input type="file" name="file" onChange={handleChange}/>
+            <input type="file" name="file" onChange={handleChange}/><br/>
             <button onClick={handleUpload}>UPLOAD</button>
         </div>
         </>
