@@ -13,18 +13,16 @@ export default function Image(props){
     function handleUpload(e){
         const form=new FormData();
         form.append('file', imageFile);
+        form.append('description', desc);
         // console.log(form);  it wont print it like this.
         //instead use this... for method
         // for(var pair of form.entries()) {
         //    console.log(pair[1]);
         // }
-
-        var data={file: form, description: desc};
-        console.log(data);
-        fetch('http://localhost:3001/postImage', {
+        fetch('http://localhost:3003/postImage', {
             method: 'POST',
-            body: data,
-            headers: { "Content-Type": "application/x-www-form-urlencoded" }
+            body: form
+            // headers: { "Content-Type": "multipart/form-data" }
         })
         .then(response => response.json())
         .then(a=>console.log(a))
