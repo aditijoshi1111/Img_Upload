@@ -1,0 +1,22 @@
+.App{
+  margin: 90px;
+  padding: 10px;
+}
+input{
+  padding: 5px;
+  font-size: 17px;
+  border: 1px solid gray;
+}
+button{
+  border: 2px solid orange;
+  color: orange;
+  background-color: transparent;
+  font-size: 17px;
+  font-weight: bold;
+  padding: 8px;
+  margin: auto 10px;
+}
+button:hover{
+  background-color: orange;
+  color: white;
+}
