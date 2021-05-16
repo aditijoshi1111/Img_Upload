@@ -78,4 +78,8 @@ app.post('/postImage', upload, (req, res)=>{
     })
 })
 
+
+// Image.deleteMany({}, function(req, res){
+//   console.log("done");
+// })
 app.listen(3003);

@@ -10,7 +10,7 @@ export default function Image(props){
             method: 'GET'
         })
         .then(response => response.json())
-        .then(a => console.log("effect "+a))
+        .then(a => console.log(a))
     },[])
 
     function handleChange(e){
