@@ -21,3 +21,14 @@ button:hover{
   background-color: orange;
   color: white;
 }
+.card{
+  border: 2px solid grey;
+  padding: 10px;
+}
+.card div{
+  font-size: 20px;
+  font-weight: bold;
+  color: navy;
+  border: 1px solid black;
+  width: 200px;
+}

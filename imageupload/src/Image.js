@@ -61,7 +61,7 @@ export default function Image(props){
 
             {product.map( item =>{
                 return(
-                    <div>
+                    <div className="card">
                         <img src={item.img} alt="qwerty"/>
                         <div>{item.description}</div>
                    </div>
